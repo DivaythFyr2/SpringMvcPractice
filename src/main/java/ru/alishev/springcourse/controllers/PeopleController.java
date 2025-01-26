@@ -19,7 +19,6 @@ public class PeopleController {
     private final PersonDAO personDAO;
     private final PersonValidator personValidator;
 
-
     @Autowired
     public PeopleController(PersonDAO personDAO, PersonValidator personValidator) {
         this.personDAO = personDAO;
@@ -38,6 +37,7 @@ public class PeopleController {
         model.addAttribute("person", personDAO.show(id));
         return "people/show";
     }
+
     @GetMapping("/new")
     public String newPerson(@ModelAttribute("person") Person person) {
         return "people/new";
@@ -52,11 +52,13 @@ public class PeopleController {
         personDAO.save(person);
         return "redirect:/people";
     }
+
     @GetMapping("/{id}/edit")
     public String edit(Model model, @PathVariable("id") int id) {
         model.addAttribute("person", personDAO.show(id));
         return "people/edit";
     }
+
     @PatchMapping("/{id}")
     public String update(@ModelAttribute("person") @Valid Person person,BindingResult bindingResult, @PathVariable("id") int id) {
         personValidator.validate(person, bindingResult);
@@ -66,6 +68,7 @@ public class PeopleController {
         personDAO.update(id, person);
         return "redirect:/people";
     }
+
     @DeleteMapping("/{id}")
     public String delete(@PathVariable int id) {
         personDAO.delete(id);
