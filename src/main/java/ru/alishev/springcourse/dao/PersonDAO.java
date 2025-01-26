@@ -10,6 +10,7 @@ import ru.alishev.springcourse.models.Person;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Component
 public class PersonDAO {
@@ -27,7 +28,13 @@ public class PersonDAO {
 
     public Person show(int id) {
         return jdbcTemplate.query("Select * FROM Person WHERE id=?", new Object[]{id}, new BeanPropertyRowMapper<>(Person.class))
-                .stream().findFirst().orElse(null);
+                .stream().findAny().orElse(null);
+
+    }
+
+    public Optional<Person> show(String email) {
+        return jdbcTemplate.query("Select * FROM Person WHERE email=?", new Object[]{email}, new BeanPropertyRowMapper<>(Person.class))
+                .stream().findAny();
 
     }
 
@@ -90,9 +97,5 @@ public class PersonDAO {
         long after = System.currentTimeMillis();
 
         System.out.println("Time taken: " + (after - before));
-    }
-
-    public void clearTable() {
-        jdbcTemplate.update("DELETE FROM Person");
     }
 }

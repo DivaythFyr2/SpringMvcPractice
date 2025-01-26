@@ -31,9 +31,4 @@ public class BatchController {
         personDAO.testBatchUpdate();
         return "redirect:/people";
     }
-    @GetMapping("/clear")
-    public String clearTable() {
-        personDAO.clearTable();
-        return "redirect:/people"; // Перенаправляем на список людей после очистки
-    }
 }
